@@ -10,7 +10,7 @@
 //
 // Template author: Mike Goss (mikegoss@cs.du.edu)
 //
-// Student name: [your name here]
+// Student name: Evan Derby and Jason Ghiglieri
 
 #include <fstream>
 #include <iostream>
@@ -40,12 +40,16 @@ unsigned numResources;   // actual number of resources
 // @returns true if every element of Request[i] is <= corresponding element
 //          of Available, false otherwise.
 bool IsRequestLessEqual(int i) {
-  bool result = true;
   //
   // TODO: implement this function
   //
-  cout << "IsRequestLessEqual not implemented yet!\n";
-  return result;
+  
+  for (int k = 0; k < request[i].size(); k++) {
+      if (request[i][k] > available[k]) {
+          return false;
+      }
+  }
+  return true;
 }
 
 // AddToAvailable - add each element in Allocation[i] to corresponding
@@ -56,16 +60,50 @@ void AddToAvailable(int i) {
   //
   // TODO: implement this function
   //
-  cout << "AddToAvailable not implemented yet!\n";
+    
+    for (int k = 0; k < allocation[i].size(); k++) {
+        if (allocation[i][k] > 0) {
+            available[k] += allocation[i][k];
+            allocation[i][k] = 0;
+        }
+    }
 }
 
+/**
+ * terminated - checks if given process i has terminated
+ * 
+ * @param i - Process number to check
+ * @return  True if all requests and allocations for i = 0. Otherwise false
+ */
+bool terminated(int i) {
+    for (int k = 0; k < allocation[i].size(); k++) {
+        if ((allocation[i][k] > 0))
+        {
+            return false;
+        }
+    }
+}
 // PrintDeadlocks - print indices of deadlocked processes
 //
 void PrintDeadlocks(void) {
   //
   // TODO: implement this function
   //
-  cout << "PrintDeadlocks not implemented yet!\n";
+    
+    std::string deadProcs = "Deadlocked Processes:\t";
+    
+    loop: for (int i = 0; i < numProcesses; i++) {
+        if (!IsRequestLessEqual(i)) {
+            deadProcs += i + "\t";
+        }
+        else if (!terminated(i))
+        {
+            AddToAvailable(i);
+            goto loop;
+        }
+    }
+    std::cout << deadProcs;
+  //cout << "PrintDeadlocks not implemented yet!\n";
 }
 
 // ReadSystemConfig - read the system configuration from the
