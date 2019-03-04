@@ -35,6 +35,8 @@ vector<vector<int>> request;
 unsigned numProcesses;   // actual number of processes
 unsigned numResources;   // actual number of resources
 
+vector<bool> terminate(numProcesses);   // whether or not any process i has terminated or not
+
 // IsRequestLessEqual - compare row of Request array to Available
 //
 // @param i - index of row in Request array
@@ -57,8 +59,7 @@ void AddToAvailable(int i) {
     for (int k = 0; k < allocation[i].size(); k++) {
         if (allocation[i][k] > 0) {
             available[k] += allocation[i][k];
-            allocation[i][k] = 0;
-            request[i][k] = 0;
+            terminate[i] = true;
         }
     }
 }
@@ -70,24 +71,30 @@ void AddToAvailable(int i) {
  * @return  True if all requests and allocations for i = 0. Otherwise false
  */
 bool terminated(int i) {
-    for (int k = 0; k < allocation[i].size(); k++) {
-        if ((allocation[i][k] > 0) || (request[i][k] > 0)) {
-            return false;
-        }
-    }
-    return true;
+    
+    return terminate[i];
 }
 // PrintDeadlocks - print indices of deadlocked processes
 //
 void PrintDeadlocks(void) {
-    cout << "Deadlocked Processes:\t";
+    cout << "Deadlocked Processes: ";
+    
+    for (int k = 0; k < numProcesses; k++) {
+        terminate[k] = false;
+    }
     
     for (int i = 0; i < numProcesses; i++) {
-        if (!IsRequestLessEqual(i)) {
-            cout << std::to_string(i) << "\t";
-        } else if (!terminated(i)) {
+        if ((!terminated(i)) && IsRequestLessEqual(i)) {
             AddToAvailable(i);
-            i = 0;
+            std::cout << "add to avail: " << i << "\n";
+            i = -1;
+             
+        }
+    }
+    
+    for (int n = 0; n < numProcesses; n++) {
+        if (!IsRequestLessEqual(n)) {
+            cout << std::to_string(n) << " ";
         }
     }
     cout << std::endl;
