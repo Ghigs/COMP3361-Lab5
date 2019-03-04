@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <string>
 
 using std::cin;
 using std::cout;
@@ -40,10 +41,6 @@ unsigned numResources;   // actual number of resources
 // @returns true if every element of Request[i] is <= corresponding element
 //          of Available, false otherwise.
 bool IsRequestLessEqual(int i) {
-  //
-  // TODO: implement this function
-  //
-  
   for (int k = 0; k < request[i].size(); k++) {
       if (request[i][k] > available[k]) {
           return false;
@@ -57,10 +54,6 @@ bool IsRequestLessEqual(int i) {
 //
 // @param i - index of row in Allocation array
 void AddToAvailable(int i) {
-  //
-  // TODO: implement this function
-  //
-    
     for (int k = 0; k < allocation[i].size(); k++) {
         if (allocation[i][k] > 0) {
             available[k] += allocation[i][k];
@@ -78,8 +71,7 @@ void AddToAvailable(int i) {
  */
 bool terminated(int i) {
     for (int k = 0; k < allocation[i].size(); k++) {
-        if ((allocation[i][k] > 0) || (request[i][k] > 0))
-        {
+        if ((allocation[i][k] > 0) || (request[i][k] > 0)) {
             return false;
         }
     }
@@ -88,24 +80,17 @@ bool terminated(int i) {
 // PrintDeadlocks - print indices of deadlocked processes
 //
 void PrintDeadlocks(void) {
-  //
-  // TODO: implement this function
-  //
-    
-    std::string deadProcs = "Deadlocked Processes:\t";
+    cout << "Deadlocked Processes:\t";
     
     for (int i = 0; i < numProcesses; i++) {
         if (!IsRequestLessEqual(i)) {
-            deadProcs += i + "\t";
-        }
-        else if (!terminated(i))
-        {
+            cout << std::to_string(i) << "\t";
+        } else if (!terminated(i)) {
             AddToAvailable(i);
             i = 0;
         }
     }
-    std::cout << deadProcs;
-  //cout << "PrintDeadlocks not implemented yet!\n";
+    cout << std::endl;
 }
 
 // ReadSystemConfig - read the system configuration from the
@@ -156,7 +141,7 @@ void ReadSystemConfig(const char *fileName) {
     for (int j = 0; j < numResources; ++j) {
       in >> allocation[i][j];
       if (in.fail()) {
-        cerr << "ERROR: failed to read Alocation[" << i << "][" << j << "]\n";
+        cerr << "ERROR: failed to read Allocation[" << i << "][" << j << "]\n";
         exit(2);
       }
     }
@@ -192,7 +177,7 @@ void ReadSystemConfig(const char *fileName) {
 
 } // namespace
 
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv) {
   // Read system configuration
   if (argc != 2) {
     cerr << "usage: lab5 filename\n";
