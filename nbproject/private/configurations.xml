@@ -28,10 +28,11 @@
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" simple_dealock.txt</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" simple_deadlock.txt</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" simple_non_deadlock.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" another_deadlock.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" simple_deadlock.txt</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" simple_non_deadlock.txt</runcommand>
+        <runcommand>"${OUTPUT_PATH}" simple_deadlock.txt</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>2</console-type>
@@ -64,10 +65,11 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" simple_deadlock.txt</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" simple_non_deadlock.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" another_deadlock.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" simple_deadlock.txt</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" simple_non_deadlock.txt</runcommand>
+        <runcommand>"${OUTPUT_PATH}" simple_deadlock.txt</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <console-type>2</console-type>

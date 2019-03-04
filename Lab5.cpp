@@ -65,6 +65,7 @@ void AddToAvailable(int i) {
         if (allocation[i][k] > 0) {
             available[k] += allocation[i][k];
             allocation[i][k] = 0;
+            request[i][k] = 0;
         }
     }
 }
@@ -77,11 +78,12 @@ void AddToAvailable(int i) {
  */
 bool terminated(int i) {
     for (int k = 0; k < allocation[i].size(); k++) {
-        if ((allocation[i][k] > 0))
+        if ((allocation[i][k] > 0) || (request[i][k] > 0))
         {
             return false;
         }
     }
+    return true;
 }
 // PrintDeadlocks - print indices of deadlocked processes
 //
@@ -92,14 +94,14 @@ void PrintDeadlocks(void) {
     
     std::string deadProcs = "Deadlocked Processes:\t";
     
-    loop: for (int i = 0; i < numProcesses; i++) {
+    for (int i = 0; i < numProcesses; i++) {
         if (!IsRequestLessEqual(i)) {
             deadProcs += i + "\t";
         }
         else if (!terminated(i))
         {
             AddToAvailable(i);
-            goto loop;
+            i = 0;
         }
     }
     std::cout << deadProcs;
