@@ -59,9 +59,11 @@ void AddToAvailable(int i) {
     for (int k = 0; k < allocation[i].size(); k++) {
         if (allocation[i][k] > 0) {
             available[k] += allocation[i][k];
-            terminate[i] = true;
+            allocation[i][k] = 0;
+            request[i][k] = 0;
         }
     }
+    terminate[i] = true;
 }
 
 /**
@@ -74,6 +76,7 @@ bool terminated(int i) {
     
     return terminate[i];
 }
+
 // PrintDeadlocks - print indices of deadlocked processes
 //
 void PrintDeadlocks(void) {
@@ -86,9 +89,7 @@ void PrintDeadlocks(void) {
     for (int i = 0; i < numProcesses; i++) {
         if ((!terminated(i)) && IsRequestLessEqual(i)) {
             AddToAvailable(i);
-            std::cout << "add to avail: " << i << "\n";
             i = -1;
-             
         }
     }
     
